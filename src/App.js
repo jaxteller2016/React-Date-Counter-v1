@@ -12,26 +12,53 @@ function App() {
     ).toDateString();
   }
 
+  function showReset() {
+    return (
+      <button
+        onClick={() => {
+          setCount(0);
+          setStep(1);
+        }}
+      >
+        Reset
+      </button>
+    );
+  }
+
   return (
     <div className='App'>
       <div className='step'>
-        <button onClick={() => setStep((s) => s - 1)}>-</button>
+        <input
+          type='range'
+          min='1'
+          max='10'
+          value={step}
+          onChange={(e) => setStep(Number(e.target.value))}
+        ></input>
         <div>Step: {step}</div>
-        <button onClick={() => setStep((s) => s + 1)}>+</button>
       </div>
+      <br />
       <div className='count'>
         <button onClick={() => setCount((c) => c - step)}>-</button>
-        <div>Count: {count}</div>
+        <input
+          type='number'
+          placeholder='Enter Count...'
+          value={count}
+          onChange={(e) => setCount(e.target.value)}
+        ></input>
         <button onClick={() => setCount((c) => c + step)}>+</button>
       </div>
       <br />
       <div>
         {count === 0
-          ? `Today is ${today}`
+          ? `Today is ${today.toDateString()}`
           : count > 0
           ? `${count} days from today will be: ${updateDate()}`
           : `${Math.abs(count)} days ago was: ${updateDate()}`}
       </div>
+      <br />
+      <br />
+      {step !== 1 || count !== 0 ? showReset() : null}
     </div>
   );
 }
